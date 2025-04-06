@@ -1,32 +1,46 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 import { IsDate, IsString, IsStrongPassword, } from 'class-validator';
 
+
+enum UserRole {
+    USER = 'user',
+    ADMIN = 'admin',
+    GUEST = 'guest'
+}
 
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: number;
 
-    @Column()
+    @Column({ type: 'varchar', length: 200 })
     @IsString()
     username: string;
 
-    @Column()
+    @Column({ type: 'varchar', length: 200})
     @IsStrongPassword()
     password: string;
 
-    @Column()
+    @Column({
+        type: 'enum',
+        enum: UserRole,
+        default: UserRole.USER
+    })
     @IsString()
     role: string;
 
-    @Column()
+    @UpdateDateColumn()
     @IsDate()
     updatedAt: Date;
 
-    @Column()
+    @CreateDateColumn()
     @IsDate()
     createdAt: Date;
+
+    @DeleteDateColumn()
+    @IsDate()
+    deletedAt: Date
 }
 
 export default User;
