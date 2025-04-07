@@ -24,6 +24,18 @@ let UsersService = class UsersService {
     }
     async create(createUserDto) {
         try {
+            const existUser = await this.userRepository.findOneBy({
+                username: createUserDto.username
+            });
+            if (existUser) {
+                const response = {
+                    status: common_1.HttpStatus.BAD_REQUEST,
+                    success: false,
+                    message: 'Already Registered',
+                    data: existUser
+                };
+                return response;
+            }
             const createResponse = await this.userRepository.create(createUserDto);
             const user = await this.userRepository.save(createResponse);
             if (!user) {

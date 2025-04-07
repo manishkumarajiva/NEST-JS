@@ -10,5 +10,5 @@ export declare class UsersService {
     findAll(): Promise<any>;
     findOne(id: number): Promise<any>;
     update(id: number, updateUserDto: UpdateUserDto): Promise<any>;
-    remove(id: number): Promise<RequestResponse<null> | RequestResponse<User> | undefined>;
+    remove(id: number): Promise<RequestResponse<User> | RequestResponse<null> | undefined>;
 }

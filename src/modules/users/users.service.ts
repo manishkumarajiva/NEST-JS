@@ -1,11 +1,9 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { RequestResponse } from 'src/common/res/response.interface';
-import { UUID } from 'node:crypto';
 
 
 @Injectable()
@@ -18,6 +16,21 @@ export class UsersService {
   /** @Create New Record */
   async create(createUserDto: CreateUserDto) : Promise<any>  {
     try {
+
+      const existUser = await this.userRepository.findOneBy({
+        username: createUserDto.username
+      })
+
+      if(existUser){
+        const response: RequestResponse<User> = {
+          status: HttpStatus.BAD_REQUEST, 
+          success: false,
+          message: 'Already Registered', 
+          data: existUser
+        }
+        return response;
+      }
+
       const createResponse: User = await this.userRepository.create(createUserDto);
       const user: User = await this.userRepository.save(createResponse);
 
@@ -101,7 +114,7 @@ export class UsersService {
     }
   }
 
-  /** @Update_User */
+  /** @Update_User */ 
   async update(id: number, updateUserDto: UpdateUserDto) : Promise<any> {
     try {
       const user : User | null = await this.userRepository.findOneBy({

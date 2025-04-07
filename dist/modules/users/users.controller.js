@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
+const swagger_1 = require("@nestjs/swagger");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
@@ -41,6 +42,9 @@ let UsersController = class UsersController {
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Create New User' }),
+    (0, swagger_1.ApiOkResponse)({ description: 'Successfully Created' }),
+    (0, swagger_1.ApiBadRequestResponse)({ description: 'Bad Request' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
@@ -48,12 +52,20 @@ __decorate([
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Get All Users' }),
+    (0, swagger_1.ApiOkResponse)({ description: 'Successfully Fetched' }),
+    (0, swagger_1.ApiBadRequestResponse)({ description: 'Bad Request' }),
+    (0, swagger_1.ApiNotFoundResponse)({ description: 'Empty Records' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get Specific User' }),
+    (0, swagger_1.ApiOkResponse)({ description: 'Successfully Fetched' }),
+    (0, swagger_1.ApiBadRequestResponse)({ description: 'Bad Request' }),
+    (0, swagger_1.ApiNotFoundResponse)({ description: 'User Not Found' }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -61,6 +73,10 @@ __decorate([
 ], UsersController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Update User Password' }),
+    (0, swagger_1.ApiOkResponse)({ description: 'Successfully Updated' }),
+    (0, swagger_1.ApiBadRequestResponse)({ description: 'Bad Request' }),
+    (0, swagger_1.ApiNotFoundResponse)({ description: 'User Not Found' }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -69,6 +85,10 @@ __decorate([
 ], UsersController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Delete User' }),
+    (0, swagger_1.ApiOkResponse)({ description: 'Successfully Deleted' }),
+    (0, swagger_1.ApiBadRequestResponse)({ description: 'Bad Request' }),
+    (0, swagger_1.ApiNotFoundResponse)({ description: 'User Not Found' }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

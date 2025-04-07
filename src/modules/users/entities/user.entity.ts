@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 import { IsDate, IsString, IsStrongPassword, } from 'class-validator';
+import { buffer } from 'stream/consumers';
 
 
 enum UserRole {
@@ -20,6 +21,9 @@ export class User {
     @Column({ type: 'varchar', length: 200})
     @IsStrongPassword()
     password: string;
+
+    @Column({ type: 'varchar' })
+    salt: string
 
     @Column({
         type: 'enum',
