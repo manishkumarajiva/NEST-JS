@@ -10,5 +10,5 @@ export declare class UsersController {
     findAll(): Promise<any>;
     findOne(id: string): Promise<RequestResponse<User>>;
     update(id: string, updateUserDto: UpdateUserDto): Promise<RequestResponse<User>>;
-    remove(id: string): Promise<RequestResponse<User>>;
+    remove(id: string): Promise<any>;
 }

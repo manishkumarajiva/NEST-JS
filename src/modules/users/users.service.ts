@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { RequestResponse } from 'src/common/res/response.interface';
+import { UUID } from 'node:crypto';
 
 
 @Injectable()
@@ -40,8 +41,10 @@ export class UsersService {
     } catch (error) {
       
     } 
-  }
+  };
 
+
+  /** @Find_All */
   async findAll(): Promise<any> {
     try {
       const users: User[] = await this.userRepository.find();
@@ -66,8 +69,10 @@ export class UsersService {
     } catch (error) {
       
     };
-  }
+  };
 
+
+  /** @Get_Single_User */
   async findOne(id: number) : Promise<any> {
     try {
       const user: User | null = await this.userRepository.findOneBy({
@@ -96,6 +101,7 @@ export class UsersService {
     }
   }
 
+  /** @Update_User */
   async update(id: number, updateUserDto: UpdateUserDto) : Promise<any> {
     try {
       const user : User | null = await this.userRepository.findOneBy({
@@ -128,6 +134,7 @@ export class UsersService {
     }
   }
 
+  /** @Remove_User */
   async remove(id: number) {
     try {
       const user : User | null = await this.userRepository.findOneBy({

@@ -20,7 +20,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) : Promise<RequestResponse<User>> {
+  async findOne(@Param('id') id: string ) : Promise<RequestResponse<User>> {
     return this.usersService.findOne(+id);
   }
 

@@ -46,6 +46,7 @@ let UsersService = class UsersService {
         catch (error) {
         }
     }
+    ;
     async findAll() {
         try {
             const users = await this.userRepository.find();
@@ -70,6 +71,7 @@ let UsersService = class UsersService {
         }
         ;
     }
+    ;
     async findOne(id) {
         try {
             const user = await this.userRepository.findOneBy({
