@@ -14,15 +14,18 @@ export class UsersService {
     private userRepository: Repository<User>
   ){}
 
-  async create(createUserDto: CreateUserDto) : Promise<any> {
+  /** @Create New Record */
+  async create(createUserDto: CreateUserDto) : Promise<any>  {
     try {
       const createResponse: User = await this.userRepository.create(createUserDto);
       const user: User = await this.userRepository.save(createResponse);
 
       if(!user){
-        const response: RequestResponse<any> = {
-          status: HttpStatus.BAD_REQUEST, success: false,
-          message: 'Failed To Create', data: null
+        const response: RequestResponse<null> = {
+          status: HttpStatus.BAD_REQUEST, 
+          success: false,
+          message: 'Failed To Create', 
+          data: null
         }
         return response;
       }
@@ -30,8 +33,10 @@ export class UsersService {
       const response: RequestResponse<User> = {
         status: HttpStatus.CREATED,
         success: true,
-        message: 'Successfully Created', data: user
+        message: 'Successfully Created', 
+        data: user
       }
+      return response;
     } catch (error) {
       
     } 
@@ -57,26 +62,24 @@ export class UsersService {
         message: 'Successfully Fetched',
         data: users
       }
-
       return response;
-
     } catch (error) {
       
     };
   }
 
-  async findOne(id: number) {
+  async findOne(id: number) : Promise<any> {
     try {
       const user: User | null = await this.userRepository.findOneBy({
         id: id
       });
 
       if(!user) {
-        const response: RequestResponse<{}> = {
+        const response: RequestResponse<null> = {
           status: HttpStatus.NOT_FOUND,
           success: false,
           message: 'Empty Records',
-          data: {}
+          data: null
         }
         return response;
       }
@@ -87,26 +90,24 @@ export class UsersService {
         message: 'Successfully Fetched',
         data: user
       }
-
       return response;
-
     } catch (error) {
       
     }
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) : Promise<any> {
     try {
       const user : User | null = await this.userRepository.findOneBy({
         id: id
       });
 
       if(!user) {
-        const response: RequestResponse<{}> = {
+        const response: RequestResponse<null> = {
           status: HttpStatus.NOT_FOUND,
           success: false,
           message: 'User Not Found',
-          data: {}
+          data: null
         }
         return response;
       }
@@ -134,11 +135,11 @@ export class UsersService {
       });
 
       if(!user) {
-        const response: RequestResponse<{}> = {
+        const response: RequestResponse<null> = {
           status: HttpStatus.NOT_FOUND,
           success: false,
           message: 'User Not Found',
-          data: {}
+          data: null
         }
         return response;
       }
@@ -152,8 +153,6 @@ export class UsersService {
         data: user
       }
       return response;
-
-
     } catch (error) {
       
     }

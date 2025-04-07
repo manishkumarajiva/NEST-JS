@@ -25,23 +25,128 @@ let UsersService = class UsersService {
     async create(createUserDto) {
         try {
             const createResponse = await this.userRepository.create(createUserDto);
-            if (!createResponse) {
+            const user = await this.userRepository.save(createResponse);
+            if (!user) {
+                const response = {
+                    status: common_1.HttpStatus.BAD_REQUEST,
+                    success: false,
+                    message: 'Failed To Create',
+                    data: null
+                };
+                return response;
             }
+            const response = {
+                status: common_1.HttpStatus.CREATED,
+                success: true,
+                message: 'Successfully Created',
+                data: user
+            };
+            return response;
         }
         catch (error) {
         }
     }
-    findAll() {
-        return `This action returns all users`;
+    async findAll() {
+        try {
+            const users = await this.userRepository.find();
+            if (!users.length) {
+                const response = {
+                    status: common_1.HttpStatus.NOT_FOUND,
+                    success: false,
+                    message: 'Empty Records',
+                    data: []
+                };
+                return response;
+            }
+            const response = {
+                status: common_1.HttpStatus.OK,
+                success: true,
+                message: 'Successfully Fetched',
+                data: users
+            };
+            return response;
+        }
+        catch (error) {
+        }
+        ;
     }
-    findOne(id) {
-        return `This action returns a #${id} user`;
+    async findOne(id) {
+        try {
+            const user = await this.userRepository.findOneBy({
+                id: id
+            });
+            if (!user) {
+                const response = {
+                    status: common_1.HttpStatus.NOT_FOUND,
+                    success: false,
+                    message: 'Empty Records',
+                    data: null
+                };
+                return response;
+            }
+            const response = {
+                status: common_1.HttpStatus.OK,
+                success: true,
+                message: 'Successfully Fetched',
+                data: user
+            };
+            return response;
+        }
+        catch (error) {
+        }
     }
-    update(id, updateUserDto) {
-        return `This action updates a #${id} user`;
+    async update(id, updateUserDto) {
+        try {
+            const user = await this.userRepository.findOneBy({
+                id: id
+            });
+            if (!user) {
+                const response = {
+                    status: common_1.HttpStatus.NOT_FOUND,
+                    success: false,
+                    message: 'User Not Found',
+                    data: null
+                };
+                return response;
+            }
+            const updatePayload = { ...user, ...updateUserDto };
+            const updateResponse = await this.userRepository.save(updatePayload);
+            const response = {
+                status: common_1.HttpStatus.ACCEPTED,
+                success: true,
+                message: 'Successfull Updated',
+                data: updateResponse
+            };
+            return response;
+        }
+        catch (error) {
+        }
     }
-    remove(id) {
-        return `This action removes a #${id} user`;
+    async remove(id) {
+        try {
+            const user = await this.userRepository.findOneBy({
+                id: id
+            });
+            if (!user) {
+                const response = {
+                    status: common_1.HttpStatus.NOT_FOUND,
+                    success: false,
+                    message: 'User Not Found',
+                    data: null
+                };
+                return response;
+            }
+            await this.userRepository.delete(id);
+            const response = {
+                status: common_1.HttpStatus.OK,
+                success: true,
+                message: 'Successfull Deleted',
+                data: user
+            };
+            return response;
+        }
+        catch (error) {
+        }
     }
 };
 exports.UsersService = UsersService;

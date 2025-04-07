@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RequestResponse } from 'src/common/res/response.interface';
 import { User } from './entities/user.entity';
 
 @Controller('users')
@@ -9,7 +10,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) : Promise<any> {
+  async create(@Body() createUserDto: CreateUserDto) : Promise<RequestResponse<User>> {
     return await this.usersService.create(createUserDto);
   }
 
@@ -19,17 +20,17 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) : Promise<RequestResponse<User>> {
     return this.usersService.findOne(+id);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) : Promise<RequestResponse<User>> {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) : Promise<any> {
     return this.usersService.remove(+id);
   }
 }

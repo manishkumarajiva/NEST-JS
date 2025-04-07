@@ -2,12 +2,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { RequestResponse } from 'src/common/res/response.interface';
 export declare class UsersService {
     private userRepository;
     constructor(userRepository: Repository<User>);
-    create(createUserDto: CreateUserDto): Promise<void>;
-    findAll(): string;
-    findOne(id: number): string;
-    update(id: number, updateUserDto: UpdateUserDto): string;
-    remove(id: number): string;
+    create(createUserDto: CreateUserDto): Promise<any>;
+    findAll(): Promise<any>;
+    findOne(id: number): Promise<any>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<any>;
+    remove(id: number): Promise<RequestResponse<null> | RequestResponse<User> | undefined>;
 }
